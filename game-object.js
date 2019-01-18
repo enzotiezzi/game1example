@@ -18,7 +18,7 @@ function GameObject(width, height, x, y, color, context, step) {
     };
 }
 
-GameObject.prototype.draw = function () { 
+GameObject.prototype.draw = function () {
     this.context.fillStyle = this.color;
     this.context.fillRect(this.x, this.y, this.width, this.height);
 }
@@ -32,4 +32,23 @@ GameObject.prototype.update = function () {
         this.x += this.speed * this.step;
     if (this.controls.down)
         this.y += this.speed * this.step;
+}
+
+GameObject.prototype.crashWith = function (otherobj) {
+    var myleft = this.x;
+    var myright = this.x + (this.width);
+    var mytop = this.y;
+    var mybottom = this.y + (this.height);
+    var otherleft = otherobj.x;
+    var otherright = otherobj.x + (otherobj.width);
+    var othertop = otherobj.y;
+    var otherbottom = otherobj.y + (otherobj.height);
+    var crash = true;
+    if ((mybottom < othertop) ||
+        (mytop > otherbottom) ||
+        (myright < otherleft) ||
+        (myleft > otherright)) {
+        crash = false;
+    }
+    return crash;
 }
